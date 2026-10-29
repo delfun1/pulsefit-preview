@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 ws://127.0.0.1:54321; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>PulseFit Admin — Sign in</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css" integrity="sha384-nWN3KqaaVcbEsCjLSV+2jMjh62Iny/+mN3srM8TZeM8N6aj7eDl5wwYggjAJ4/sJ" crossorigin="anonymous" rel="stylesheet">
+  <link href="css/admin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="pf-card login-card p-4 p-md-5">
+      <div class="d-flex align-items-center gap-2 mb-4">
+        <span class="brand-mark" aria-hidden="true"><i class="bi bi-activity"></i></span>
+        <span class="fs-4 fw-bold">Pulse<span style="color:var(--pf-orange)">Fit</span> <span class="text-secondary fw-normal fs-6">Admin</span></span>
+      </div>
+      <h1 class="h4 fw-bold mb-1">Staff sign in</h1>
+      <p class="text-secondary mb-4">For administrators and store managers only.</p>
+      <div id="alert" class="alert d-none" role="alert"></div>
+      <form id="login-form" novalidate>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control form-control-lg" id="email" autocomplete="username" required>
+        </div>
+        <div class="mb-4">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control form-control-lg" id="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-primary btn-lg w-100" type="submit" id="submit">Sign in</button>
+      </form>
+      <!-- Step 2 (only for accounts with two-factor sign-in) -->
+      <form id="code-form" class="d-none" novalidate>
+        <p class="mb-3">Open your authenticator app and enter the 6-digit code for <strong>PulseFit</strong>.</p>
+        <div class="mb-4">
+          <label for="code" class="form-label">Code</label>
+          <input type="text" class="form-control form-control-lg text-center fs-3" id="code" inputmode="numeric"
+                 autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+        </div>
+        <button class="btn btn-primary btn-lg w-100" type="submit" id="code-submit">Verify</button>
+        <button class="btn btn-link w-100 mt-2" type="button" id="other-account">Use a different account</button>
+      </form>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script type="module" src="js/pages/login.js"></script>
+</body>
+</html>

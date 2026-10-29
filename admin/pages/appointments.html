@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 ws://127.0.0.1:54321; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Appointments — PulseFit Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css" integrity="sha384-nWN3KqaaVcbEsCjLSV+2jMjh62Iny/+mN3srM8TZeM8N6aj7eDl5wwYggjAJ4/sJ" crossorigin="anonymous" rel="stylesheet">
+  <link href="../css/admin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main>
+      <header id="topbar"></header>
+            <div class="pf-card mb-3">
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+          <div class="btn-group" role="group" aria-label="View">
+            <input type="radio" class="btn-check" name="view" id="view-week" value="week" checked><label class="btn btn-outline-primary btn-sm" for="view-week"><i class="bi bi-calendar-week"></i> Week</label>
+            <input type="radio" class="btn-check" name="view" id="view-list" value="list"><label class="btn btn-outline-primary btn-sm" for="view-list"><i class="bi bi-list-ul"></i> List</label>
+          </div>
+          <div class="btn-group" id="week-nav">
+            <button class="btn btn-light btn-sm" id="prev-week" aria-label="Previous week"><i class="bi bi-chevron-left"></i></button>
+            <button class="btn btn-light btn-sm" id="this-week">This week</button>
+            <button class="btn btn-light btn-sm" id="next-week" aria-label="Next week"><i class="bi bi-chevron-right"></i></button>
+          </div>
+          <div class="d-none align-items-center gap-1" id="range">
+            <label class="small text-secondary" for="from">From</label><input type="date" class="form-control form-control-sm w-auto" id="from">
+            <label class="small text-secondary" for="to">to</label><input type="date" class="form-control form-control-sm w-auto" id="to">
+          </div>
+          <select id="coach" class="form-select form-select-sm w-auto" aria-label="Coach"><option value="">All coaches</option></select>
+          <select id="status" class="form-select form-select-sm w-auto" aria-label="Status">
+            <option value="">All statuses</option><option value="requested">Requested</option><option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option><option value="cancelled">Cancelled</option><option value="no_show">No-show</option>
+            <option value="declined">Declined</option><option value="expired">Expired</option>
+          </select>
+          <span class="fw-semibold ms-md-2" id="range-label" aria-live="polite"></span>
+          <button class="btn btn-outline-secondary btn-sm ms-auto" id="export"><i class="bi bi-download"></i> Export CSV</button>
+        </div>
+      </div>
+      <div id="error" class="alert alert-danger d-none" role="alert"></div>
+      <div class="row g-3 mb-3" id="stats"></div>
+      <div class="pf-card mb-3 d-none" id="availability"></div>
+      <div class="pf-card" id="week"></div>
+      <div class="pf-card d-none" id="list">
+        <div class="table-responsive"><table class="table align-middle">
+          <thead><tr><th>When</th><th>Service</th><th>Coach</th><th>Client(s)</th><th>Status</th><th>Payment</th><th></th></tr></thead>
+          <tbody id="rows"></tbody></table></div>
+      </div>
+    </main>
+  </div>
+  <div class="modal fade" id="appt-modal" tabindex="-1" aria-labelledby="appt-title" aria-hidden="true">
+    <div class="modal-dialog"><div class="modal-content">
+      <div class="modal-header"><h2 class="modal-title h5" id="appt-title">Session</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+      <div class="modal-body" id="appt-body"></div>
+    </div></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script type="module" src="../js/pages/appointments.js"></script>
+</body>
+</html>

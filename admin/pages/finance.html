@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 ws://127.0.0.1:54321; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Financial reports — PulseFit Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css" integrity="sha384-nWN3KqaaVcbEsCjLSV+2jMjh62Iny/+mN3srM8TZeM8N6aj7eDl5wwYggjAJ4/sJ" crossorigin="anonymous" rel="stylesheet">
+  <link href="../css/admin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main>
+      <header id="topbar"></header>
+            <div class="pf-card mb-3">
+        <form class="d-flex flex-wrap gap-2 align-items-center" id="controls">
+          <select id="preset" class="form-select form-select-sm w-auto" aria-label="Period">
+            <option value="this-month" selected>This month</option><option value="last-month">Last month</option>
+            <option value="30">Last 30 days</option><option value="90">Last 90 days</option><option value="this-year">This year</option><option value="custom">Custom…</option>
+          </select>
+          <label class="small text-secondary" for="from">From</label><input type="date" id="from" class="form-control form-control-sm w-auto">
+          <label class="small text-secondary" for="to">to</label><input type="date" id="to" class="form-control form-control-sm w-auto">
+          <select id="group" class="form-select form-select-sm w-auto" aria-label="Group by">
+            <option value="day">By day</option><option value="week">By week</option><option value="month">By month</option>
+          </select>
+          <span class="small text-secondary" id="tz"></span>
+          <button class="btn btn-outline-secondary btn-sm ms-auto" type="button" id="export"><i class="bi bi-download"></i> Export CSV</button>
+        </form>
+      </div>
+      <div id="error" class="alert alert-danger d-none" role="alert"></div>
+      <div class="alert alert-light small border">
+        <b>How these numbers are calculated.</b> Revenue counts only <b>confirmed</b> money (succeeded, partially refunded or refunded payments), by payment date. Pending, failed, cancelled and disputed payments are never counted as revenue — they are listed separately below. Each currency is reported on its own; nothing is converted.
+        <b>Net</b> = gross − refunds − provider fees. <b>Platform commission</b> = commission % × coaching money kept after refunds.
+      </div>
+      <div id="currencies"></div>
+      <div class="row g-3 mt-0">
+        <div class="col-lg-8"><div class="pf-card h-100">
+          <div class="d-flex align-items-center mb-2"><h2 class="h6 fw-bold mb-0">Revenue by period</h2>
+            <select id="chart-currency" class="form-select form-select-sm w-auto ms-auto" aria-label="Chart currency"></select></div>
+          <canvas id="series-chart" height="130" role="img" aria-label="Revenue by period and source"></canvas>
+        </div></div>
+        <div class="col-lg-4"><div class="pf-card h-100">
+          <h2 class="h6 fw-bold">Sales by category</h2>
+          <div class="table-responsive"><table class="table table-sm align-middle mb-0"><thead><tr><th>Category</th><th class="text-end">Units</th><th class="text-end">Sales</th></tr></thead>
+          <tbody id="categories"></tbody></table></div>
+        </div></div>
+        <div class="col-12"><div class="pf-card">
+          <h2 class="h6 fw-bold">All payment attempts in the period, by status</h2>
+          <p class="small text-secondary">By creation date. Only the green rows are revenue.</p>
+          <div class="table-responsive"><table class="table table-sm align-middle mb-0"><thead><tr><th>Status</th><th>Meaning</th><th>Currency</th><th class="text-end">Count</th><th class="text-end">Amount</th></tr></thead>
+          <tbody id="statuses"></tbody></table></div>
+        </div></div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.6.1/dist/chart.umd.min.js" integrity="sha384-Emf5ZVIUiarAdhkgtqK+5/Z5qIvM6QoVrS+qAVtfyZVuD5lIHrac0me485+Antp0" crossorigin="anonymous"></script>
+  <script type="module" src="../js/pages/finance.js"></script>
+</body>
+</html>

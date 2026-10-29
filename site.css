@@ -1,0 +1,217 @@
+/* PulseFit public website: home, privacy, terms, account deletion.
+   Dark night blue, the brand's electric blue for structure, orange only for the pulse and the main action.
+   Font: Archivo (SIL Open Font License, fonts/OFL.txt), self-hosted. */
+
+@font-face {
+  font-family: "Archivo"; font-style: normal; font-display: swap;
+  font-weight: 100 900; font-stretch: 62% 125%;
+  src: url(fonts/archivo-latin-wdth-normal.woff2) format("woff2-variations");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Archivo"; font-style: normal; font-display: swap;
+  font-weight: 100 900; font-stretch: 62% 125%;
+  src: url(fonts/archivo-latin-ext-wdth-normal.woff2) format("woff2-variations");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+:root {
+  --night: #07142a;      /* page */
+  --panel: #0e2140;      /* raised surfaces */
+  --rule: #1f3a63;       /* lines, borders */
+  --blue: #3aa8ff;       /* structure, links */
+  --orange: #ff8a1f;     /* the pulse, the main action */
+  --text: #eaf2ff;
+  --muted: #9db0cc;
+  --wrap: 1120px;
+  --gutter: clamp(16px, 4vw, 40px);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--night); color: var(--text);
+  font: 400 1.0625rem/1.6 "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-stretch: 100%;
+}
+img, svg { display: block; max-width: 100%; }
+a { color: var(--blue); text-underline-offset: 3px; }
+a:hover { color: var(--text); }
+:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
+p { margin: 0; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+.skip { position: absolute; left: -9999px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip:focus { left: 16px; top: 12px; z-index: 10; background: var(--orange); color: var(--night); padding: 8px 12px; }
+
+/* Display type: the wide, heavy cut of Archivo. */
+.display, h1, h2, h3 { font-stretch: 125%; font-weight: 800; letter-spacing: -0.01em; line-height: 1.05; margin: 0; text-wrap: balance; }
+
+/* ---------- Header ---------- */
+.top { border-bottom: 1px solid var(--rule); }
+.top .wrap { display: flex; align-items: center; gap: 28px; min-height: 68px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-stretch: 125%; font-weight: 800; font-size: 1.2rem; }
+.brand .mark { width: 34px; height: 34px; border-radius: 10px; background: var(--blue); display: grid; place-items: center; }
+.brand .mark svg { width: 22px; height: 22px; }
+.brand:hover { color: var(--text); }
+.top nav { display: flex; gap: 24px; margin-left: auto; }
+.top nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
+.top nav a:hover { color: var(--text); }
+.top nav a[aria-current="page"] { color: var(--text); box-shadow: inset 0 -3px 0 var(--orange); }
+.top nav a { padding: 22px 0 20px; }
+
+/* ---------- Buttons ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 999px; font-weight: 700; text-decoration: none; font-stretch: 112%; border: 2px solid transparent; }
+.btn-go { background: var(--orange); color: var(--night); }
+.btn-go:hover { background: #ffa04a; color: var(--night); }
+.btn-line { border-color: var(--blue); color: var(--text); }
+.btn-line:hover { background: var(--blue); color: var(--night); }
+.top .btn { min-height: 40px; padding: 0 18px; }
+
+/* ---------- Hero ---------- */
+/* Background: faint ECG paper, small and large squares. */
+.hero {
+  position: relative; overflow: hidden; border-bottom: 1px solid var(--rule);
+  background-color: var(--night);
+  background-image:
+    linear-gradient(rgba(58,168,255,.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(58,168,255,.11) 1px, transparent 1px),
+    linear-gradient(rgba(58,168,255,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(58,168,255,.045) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px;
+}
+.hero .wrap { padding-top: clamp(56px, 10vw, 120px); padding-bottom: clamp(48px, 8vw, 96px); display: grid; gap: 28px; }
+.hero h1 { font-size: clamp(2.6rem, 9.6vw, 6.6rem); font-weight: 850; line-height: .95; letter-spacing: -0.02em; }
+.hero h1 span { display: block; }
+.hero .lead { font-size: clamp(1.1rem, 2.2vw, 1.35rem); color: var(--muted); max-width: 40ch; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero .where { color: var(--muted); font-size: .95rem; }
+
+/* The pulse: one line that draws itself once, then the dot beats once. */
+.pulse { width: 100%; height: clamp(84px, 11vw, 130px); margin: 4px 0; }
+.pulse path { fill: none; stroke: var(--orange); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.pulse circle { fill: var(--orange); transform-box: fill-box; transform-origin: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .pulse path { stroke-dashoffset: 1; animation: draw 1.8s cubic-bezier(.45,.05,.3,1) .2s forwards; }
+  .pulse circle { opacity: 0; animation: appear .2s ease-out 1.95s forwards, beat .7s ease-out 2.1s 2; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes appear { to { opacity: 1; } }
+  @keyframes beat { 0% { transform: scale(1); } 30% { transform: scale(1.9); } 100% { transform: scale(1); } }
+}
+
+/* ---------- Sections ---------- */
+section { padding: clamp(56px, 9vw, 112px) 0; }
+section + section { border-top: 1px solid var(--rule); }
+.section-head { display: grid; gap: 14px; margin-bottom: clamp(32px, 5vw, 56px); max-width: 760px; }
+.section-head h2 { font-size: clamp(2rem, 5vw, 3.4rem); }
+.section-head p { color: var(--muted); font-size: 1.15rem; max-width: 56ch; }
+
+/* What you can do: full-width rows, name on the left, detail on the right. */
+.features { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.features > li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px 48px; padding: clamp(28px, 4vw, 44px) 0; border-bottom: 1px solid var(--rule); }
+.features h3 { font-size: clamp(1.6rem, 3.6vw, 2.5rem); }
+.features .detail { display: grid; gap: 14px; }
+.features .detail > p { font-size: 1.15rem; max-width: 52ch; }
+.features ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; color: var(--muted); }
+.features ul li { padding-left: 22px; position: relative; max-width: 60ch; }
+.features ul li::before { content: ""; position: absolute; left: 0; top: .68em; width: 10px; height: 2px; background: var(--blue); }
+
+/* Booking a coach: a real sequence, so it is numbered. */
+.steps { list-style: none; counter-reset: step; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+.steps li { counter-increment: step; padding: 28px 24px 8px 0; border-top: 3px solid var(--rule); display: grid; gap: 8px; align-content: start; }
+.steps li:first-child { border-top-color: var(--orange); }
+.steps li::before { content: counter(step); font-stretch: 125%; font-weight: 800; font-size: 2.6rem; line-height: 1; color: var(--blue); }
+.steps h3 { font-size: 1.25rem; font-stretch: 112%; }
+.steps p { color: var(--muted); }
+
+/* Get the app */
+.options { display: grid; gap: 12px; max-width: 760px; margin-bottom: 24px; }
+.option { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 16px; padding: 22px 24px; background: var(--panel); border: 1px solid var(--rule); border-radius: 16px; color: var(--text); text-decoration: none; }
+.option strong { font-stretch: 112%; font-size: 1.2rem; }
+.option span { color: var(--muted); grid-column: 1; }
+.option svg { grid-row: 1 / span 2; grid-column: 2; width: 28px; height: 28px; stroke: var(--blue); }
+.option:hover { border-color: var(--blue); color: var(--text); }
+.option:hover svg { stroke: var(--orange); }
+.fine { color: var(--muted); font-size: .95rem; max-width: 60ch; }
+
+/* Top of the inner pages: the same grid paper as the home hero, shorter. */
+.page-hero { border-bottom: 1px solid var(--rule); background-color: var(--night);
+  background-image: linear-gradient(rgba(58,168,255,.11) 1px, transparent 1px), linear-gradient(90deg, rgba(58,168,255,.11) 1px, transparent 1px),
+    linear-gradient(rgba(58,168,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(58,168,255,.045) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px; background-position: -1px -1px; }
+.page-hero .wrap { padding-top: clamp(48px, 8vw, 96px); padding-bottom: clamp(40px, 6vw, 72px); margin-bottom: 0; max-width: var(--wrap); }
+.page-hero h1 { font-size: clamp(2.3rem, 6.4vw, 4.6rem); max-width: 16ch; }
+.page-hero p { max-width: 52ch; }
+
+/* Home: three ways into the site, as full-width rows. */
+.paths { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.paths a { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) 40px; align-items: center; gap: 8px 48px; padding: clamp(24px, 3.4vw, 36px) 0; border-bottom: 1px solid var(--rule); color: var(--text); text-decoration: none; }
+.paths strong { font-stretch: 125%; font-weight: 800; font-size: clamp(1.5rem, 3.4vw, 2.3rem); line-height: 1.1; }
+.paths p { color: var(--muted); font-size: 1.1rem; }
+.paths svg, .next svg { width: 32px; height: 32px; stroke: var(--blue); justify-self: end; }
+.paths a:hover strong { color: var(--orange); }
+.paths a:hover svg, .next:hover svg { stroke: var(--orange); }
+
+/* End of an inner page: where to go next. */
+.next { display: grid; grid-template-columns: 1fr 40px; gap: 4px 16px; align-items: center; margin-top: clamp(40px, 6vw, 72px); padding: 24px 28px; border: 1px solid var(--rule); border-radius: 16px; background: var(--panel); color: var(--text); text-decoration: none; max-width: 760px; }
+.next span { color: var(--muted); font-size: .95rem; }
+.next strong { font-stretch: 112%; font-size: 1.35rem; }
+.next p { color: var(--muted); grid-column: 1; }
+.next svg { grid-column: 2; grid-row: 1 / span 3; }
+.next:hover { border-color: var(--blue); color: var(--text); }
+
+/* ---------- Footer ---------- */
+.foot { border-top: 1px solid var(--rule); padding: 36px 0 48px; color: var(--muted); font-size: .95rem; }
+.foot .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; }
+.foot .brand { font-size: 1rem; margin-right: auto; }
+.foot .brand .mark { width: 28px; height: 28px; border-radius: 8px; }
+.foot .brand .mark svg { width: 18px; height: 18px; }
+.foot a:not(.brand) { color: var(--muted); }
+.foot a:not(.brand):hover { color: var(--text); }
+.foot .legal { width: 100%; }
+
+/* ---------- WhatsApp chat button (every page) ---------- */
+.whatsapp { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 20;
+  display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 20px 0 16px; border-radius: 999px;
+  background: #25d366; color: #052e16; font-weight: 700; font-stretch: 112%; text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .45); }
+.whatsapp svg { width: 26px; height: 26px; flex: none; }
+.whatsapp:hover { background: #3ee07b; color: #052e16; }
+.whatsapp:focus-visible { outline-color: var(--text); }
+.foot { padding-bottom: 96px; }   /* room so the button never covers the footer links */
+@media (max-width: 480px) {
+  .whatsapp { width: 56px; height: 56px; padding: 0; justify-content: center; }
+  .whatsapp span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+
+/* ---------- Long-form pages (privacy, terms, deletion) ---------- */
+.doc { max-width: 760px; padding-top: clamp(40px, 7vw, 80px); padding-bottom: clamp(48px, 8vw, 96px); display: grid; gap: 18px; }
+.doc h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); margin-bottom: 4px; }
+.doc h2 { font-size: 1.4rem; font-stretch: 112%; margin-top: 22px; }
+.doc p, .doc li { color: var(--muted); max-width: 68ch; }
+.doc strong { color: var(--text); }
+.doc ul, .doc ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+.doc .updated { font-size: .95rem; }
+.box { background: var(--panel); border: 1px solid var(--rule); border-radius: 16px; padding: 22px 24px; display: grid; gap: 10px; }
+.box h2 { margin-top: 0; }
+.review { border-left: 4px solid var(--orange); padding: 14px 18px; background: var(--panel); border-radius: 0 12px 12px 0; color: var(--muted); font-size: .95rem; }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 860px) {
+  .paths a { grid-template-columns: 1fr 32px; gap: 6px 16px; }
+  .paths p { grid-column: 1; }
+  .paths svg { grid-column: 2; grid-row: 1 / span 2; }
+  .features > li { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 24px; }
+  }
+@media (max-width: 640px) {
+  .top .wrap { flex-wrap: wrap; gap: 0 16px; }
+  .top .brand { min-height: 64px; }
+  .top .btn { margin-left: auto; }
+  .top nav { order: 3; width: 100%; margin: 0; gap: 22px; overflow-x: auto; border-top: 1px solid var(--rule); scrollbar-width: none; }
+  .top nav a { padding: 14px 0 12px; white-space: nowrap; }
+  .steps { grid-template-columns: 1fr; }
+  .hero .actions .btn { flex: 1 1 100%; }
+}

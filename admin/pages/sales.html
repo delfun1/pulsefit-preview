@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 ws://127.0.0.1:54321; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Sales report — PulseFit Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css" integrity="sha384-nWN3KqaaVcbEsCjLSV+2jMjh62Iny/+mN3srM8TZeM8N6aj7eDl5wwYggjAJ4/sJ" crossorigin="anonymous" rel="stylesheet">
+  <link href="../css/admin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main>
+      <header id="topbar"></header>
+      <div class="d-flex flex-wrap gap-2 align-items-end mb-3">
+        <div><label class="form-label small mb-0" for="from">From</label><input type="date" id="from" class="form-control form-control-sm"></div>
+        <div><label class="form-label small mb-0" for="to">To</label><input type="date" id="to" class="form-control form-control-sm"></div>
+        <button class="btn btn-primary btn-sm" id="run">Update</button>
+        <span class="small text-secondary ms-auto">Paid orders only. Each currency is reported separately.</span>
+      </div>
+      <div id="error" class="alert alert-danger d-none" role="alert"></div>
+      <div class="row g-3 mb-3" id="totals"></div>
+      <div class="row g-3">
+        <div class="col-lg-8"><div class="pf-card h-100"><h2 class="h6 fw-bold">Revenue per day <span class="small text-secondary fw-normal">(UTC days)</span></h2><canvas id="day-chart" height="120" role="img" aria-label="Revenue per day"></canvas></div></div>
+        <div class="col-lg-4"><div class="pf-card h-100"><h2 class="h6 fw-bold">By category</h2><div class="chart-box"><canvas id="cat-chart" role="img" aria-label="Revenue by category"></canvas></div></div></div>
+        <div class="col-lg-7"><div class="pf-card"><h2 class="h6 fw-bold">Top products</h2>
+          <table class="table table-sm align-middle mb-0"><thead><tr><th>Product</th><th class="text-end">Units</th><th class="text-end">Revenue</th></tr></thead><tbody id="top"></tbody></table></div></div>
+        <div class="col-lg-5"><div class="pf-card"><h2 class="h6 fw-bold">Low stock now</h2>
+          <table class="table table-sm align-middle mb-0"><thead><tr><th>Item</th><th class="text-end">Left</th></tr></thead><tbody id="low"></tbody></table></div></div>
+      </div>    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.6.1/dist/chart.umd.min.js" integrity="sha384-Emf5ZVIUiarAdhkgtqK+5/Z5qIvM6QoVrS+qAVtfyZVuD5lIHrac0me485+Antp0" crossorigin="anonymous"></script>
+  <script type="module" src="../js/pages/sales.js"></script>
+</body>
+</html>

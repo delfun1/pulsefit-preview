@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 ws://127.0.0.1:54321; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Notifications — PulseFit Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css" integrity="sha384-nWN3KqaaVcbEsCjLSV+2jMjh62Iny/+mN3srM8TZeM8N6aj7eDl5wwYggjAJ4/sJ" crossorigin="anonymous" rel="stylesheet">
+  <link href="../css/admin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main>
+      <header id="topbar"></header>
+            <div id="error" class="alert alert-danger d-none" role="alert"></div>
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <div class="pf-card h-100">
+            <div class="d-flex align-items-start gap-3">
+              <i class="bi bi-envelope fs-3 text-primary" aria-hidden="true"></i>
+              <div class="flex-grow-1">
+                <h2 class="h6 mb-1">Email (Resend)</h2>
+                <p class="small text-secondary mb-2">Booking, billing and order emails, following each member's preferences. Switch on only after the Resend secrets are set (see <code>docs/notifications-setup.md</code>).</p>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="sw-resend" data-provider="resend">
+                  <label class="form-check-label" for="sw-resend">Send emails</label>
+                </div>
+              </div>
+            </div>
+            <div class="row text-center mt-3" id="email-stats"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="pf-card h-100">
+            <div class="d-flex align-items-start gap-3">
+              <i class="bi bi-phone-vibrate fs-3 text-primary" aria-hidden="true"></i>
+              <div class="flex-grow-1">
+                <h2 class="h6 mb-1">Push (Firebase Cloud Messaging)</h2>
+                <p class="small text-secondary mb-2">Phone (Android) and browser alerts. Needs the Firebase service-account secret on the server and the Firebase values in the app build.</p>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="sw-fcm" data-provider="fcm">
+                  <label class="form-check-label" for="sw-fcm">Send push notifications</label>
+                </div>
+              </div>
+            </div>
+            <div class="row text-center mt-3" id="push-stats"></div>
+          </div>
+        </div>
+      </div>
+      <div class="pf-card mb-3">
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          <div class="flex-grow-1">
+            <h2 class="h6 mb-1">Test</h2>
+            <p class="small text-secondary mb-0">Sends a test notification to you. With email switched on it should arrive in your inbox within about a minute, once the scheduler secrets are stored in Vault.</p>
+          </div>
+          <button class="btn btn-primary" id="send-test"><i class="bi bi-send"></i> Send me a test</button>
+          <button class="btn btn-outline-secondary" id="refresh"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+        </div>
+        <p class="small mt-2 mb-0" id="test-result" aria-live="polite"></p>
+      </div>
+      <div class="pf-card">
+        <h2 class="h6">Recent problems (last 7 days)</h2>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead><tr><th>When</th><th>Type</th><th>Recipient</th><th>Email</th><th>Push</th><th>Reason</th></tr></thead>
+            <tbody id="failures"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script type="module" src="../js/pages/notifications.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 ws://127.0.0.1:54321; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Subscriptions — PulseFit Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css" integrity="sha384-nWN3KqaaVcbEsCjLSV+2jMjh62Iny/+mN3srM8TZeM8N6aj7eDl5wwYggjAJ4/sJ" crossorigin="anonymous" rel="stylesheet">
+  <link href="../css/admin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main>
+      <header id="topbar"></header>
+            <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+        <label for="period" class="text-secondary small">Activity period</label>
+        <select id="period" class="form-select form-select-sm w-auto">
+          <option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last 12 months</option>
+        </select>
+      </div>
+      <div id="error" class="alert alert-danger d-none" role="alert"></div>
+      <div class="row g-3 mb-3" id="stats"></div>
+      <div class="row g-3 mb-3">
+        <div class="col-lg-5"><div class="pf-card h-100">
+          <h2 class="h6 fw-bold">Active members by plan</h2>
+          <div class="table-responsive"><table class="table table-sm align-middle mb-0">
+            <thead><tr><th>Plan</th><th>Price</th><th class="text-end">Members</th></tr></thead><tbody id="by-plan"></tbody></table></div>
+        </div></div>
+        <div class="col-lg-7"><div class="pf-card h-100">
+          <h2 class="h6 fw-bold">Failed subscription payments (period)</h2>
+          <div class="table-responsive"><table class="table table-sm align-middle mb-0">
+            <thead><tr><th>When</th><th>Member</th><th>Amount</th><th>Reason</th></tr></thead><tbody id="failed"></tbody></table></div>
+        </div></div>
+      </div>
+      <div class="pf-card">
+        <form id="filters" class="row g-2 mb-3" role="search">
+          <div class="col-md-4"><input id="q" class="form-control" type="search" placeholder="Search member name or email" aria-label="Search"></div>
+          <div class="col-6 col-md-3"><select id="status" class="form-select" aria-label="Status">
+            <option value="">All statuses</option><option value="active">Active</option><option value="trialing">Trial</option>
+            <option value="past_due">Past due</option><option value="cancelled">Cancelled</option><option value="expired">Expired</option><option value="incomplete">Incomplete</option></select></div>
+          <div class="col-6 col-md-3"><select id="plan" class="form-select" aria-label="Plan"><option value="">All plans</option></select></div>
+          <div class="col-md-2 d-flex gap-2"><button class="btn btn-primary flex-grow-1" type="submit"><i class="bi bi-search"></i></button>
+            <button class="btn btn-outline-secondary" type="button" id="export" aria-label="Export CSV" title="Export CSV"><i class="bi bi-download"></i></button></div>
+        </form>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead><tr><th>Member</th><th>Plan</th><th>Status</th><th>Current period</th><th>Last payment</th><th class="text-end">Actions</th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+        <nav class="d-flex justify-content-between align-items-center" aria-label="Pagination">
+          <span class="text-secondary small" id="count"></span>
+          <div class="btn-group"><button class="btn btn-outline-secondary btn-sm" id="prev">Previous</button><button class="btn btn-outline-secondary btn-sm" id="next">Next</button></div>
+        </nav>
+      </div>
+    </main>
+  </div>
+  <div class="modal fade" id="hist-modal" tabindex="-1" aria-labelledby="hist-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content">
+      <div class="modal-header"><h2 class="modal-title h5" id="hist-title">History</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+      <div class="modal-body" id="hist-body"></div>
+    </div></div>
+  </div>
+  <div class="modal fade" id="act-modal" tabindex="-1" aria-labelledby="act-title" aria-hidden="true">
+    <div class="modal-dialog"><form class="modal-content" id="act-form">
+      <div class="modal-header"><h2 class="modal-title h5" id="act-title">Change subscription</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+      <div class="modal-body">
+        <input type="hidden" id="act-id"><input type="hidden" id="act-kind">
+        <p class="small" id="act-help"></p>
+        <div id="act-days-wrap" class="mb-3"><label class="form-label" for="act-days">Days to add</label>
+          <input class="form-control" id="act-days" type="number" min="1" max="365" value="7"></div>
+        <div id="act-when-wrap" class="mb-3">
+          <div class="form-check"><input class="form-check-input" type="radio" name="act-when" id="act-end" value="end" checked>
+            <label class="form-check-label" for="act-end">At the end of the paid period (member keeps access until then)</label></div>
+          <div class="form-check"><input class="form-check-input" type="radio" name="act-when" id="act-now" value="now">
+            <label class="form-check-label" for="act-now">Immediately (access ends now — refund separately on the Payments page if due)</label></div>
+        </div>
+        <label class="form-label" for="act-reason">Reason (required, kept in the audit log)</label>
+        <textarea class="form-control" id="act-reason" rows="2" required maxlength="500"></textarea>
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="submit" id="act-submit">Save</button></div>
+    </form></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script type="module" src="../js/pages/subscriptions.js"></script>
+</body>
+</html>

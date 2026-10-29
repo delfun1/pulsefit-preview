@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 ws://127.0.0.1:54321; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Two-factor sign-in — PulseFit Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css" integrity="sha384-nWN3KqaaVcbEsCjLSV+2jMjh62Iny/+mN3srM8TZeM8N6aj7eDl5wwYggjAJ4/sJ" crossorigin="anonymous" rel="stylesheet">
+  <link href="../css/admin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main>
+      <header id="topbar"></header>
+      <div id="required" class="alert alert-warning d-none" role="alert">
+        PulseFit requires administrators to use two-factor sign-in. Set it up below to continue to the dashboard.
+      </div>
+      <div id="error" class="alert alert-danger d-none" role="alert"></div>
+      <div id="ok" class="alert alert-success d-none" role="status"></div>
+
+      <div class="pf-card mb-3">
+        <h2 class="h5 fw-bold">Your account</h2>
+        <p class="text-secondary">After your password, you will also enter a 6-digit code from an authenticator app on your phone
+          (Google Authenticator, Microsoft Authenticator, Authy, 1Password…). Someone who learns your password still cannot sign in.</p>
+        <div id="status" class="mb-3" aria-live="polite">Checking…</div>
+
+        <div id="enrol" class="d-none">
+          <ol class="mb-3">
+            <li>Open your authenticator app and add an account (usually the <strong>+</strong> button).</li>
+            <li>Scan this QR code. If you cannot scan, type the key below instead.</li>
+            <li>Enter the 6-digit code the app shows.</li>
+          </ol>
+          <div class="d-flex flex-wrap gap-4 align-items-start mb-3">
+            <img id="qr" alt="QR code for your authenticator app" width="180" height="180" class="border rounded bg-white p-2">
+            <div style="min-width:0">
+              <div class="small text-secondary">Key (if you cannot scan)</div>
+              <code id="secret" class="d-block text-break fs-6 mb-3"></code>
+              <label for="enrol-code" class="form-label">Code from the app</label>
+              <div class="input-group" style="max-width:280px">
+                <input id="enrol-code" class="form-control" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}">
+                <button id="enrol-verify" class="btn btn-primary">Turn on</button>
+              </div>
+            </div>
+          </div>
+          <button id="enrol-cancel" class="btn btn-link px-0">Cancel</button>
+        </div>
+
+        <button id="start" class="btn btn-primary d-none"><i class="bi bi-shield-lock"></i> Set up two-factor sign-in</button>
+        <div id="factors" class="d-none">
+          <div class="table-responsive">
+            <table class="table align-middle mb-2">
+              <thead><tr><th>Authenticator</th><th>Added</th><th></th></tr></thead>
+              <tbody id="factor-rows"></tbody>
+            </table>
+          </div>
+          <p class="small text-secondary mb-0">Lost your phone? Another administrator can't see your codes, but they can help you regain access —
+            see "Lost authenticator" in the admin guide.</p>
+        </div>
+      </div>
+
+      <div id="org" class="pf-card d-none">
+        <h2 class="h5 fw-bold">All administrators</h2>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="require-mfa">
+          <label class="form-check-label" for="require-mfa">Require two-factor sign-in for every administrator</label>
+        </div>
+        <p class="small text-secondary mt-2 mb-0">When on, the database refuses all administrator actions from a session that has not entered a code —
+          even with the right password. Make sure every administrator has set up their authenticator first.
+          You can only change this after signing in with your own code.</p>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script type="module" src="../js/pages/security.js"></script>
+</body>
+</html>

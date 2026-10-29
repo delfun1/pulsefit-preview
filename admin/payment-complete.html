@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 ws://127.0.0.1:54321; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>PulseFit — Payment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
+  <link href="css/admin.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Flutterwave sends the customer here after paying. This page grants NOTHING:
+       access is activated only by the verified server webhook. -->
+  <div class="login-wrap">
+    <div class="pf-card login-card p-4 p-md-5 text-center">
+      <div class="d-flex justify-content-center align-items-center gap-2 mb-4">
+        <span class="brand-mark" aria-hidden="true">♥</span>
+        <span class="fs-4 fw-bold">Pulse<span style="color:var(--pf-orange)">Fit</span></span>
+      </div>
+      <h1 class="h4 fw-bold" id="title">Thank you!</h1>
+      <p class="text-secondary" id="message">We are confirming your payment with the provider. This usually takes a few seconds.</p>
+      <p class="mb-0">You can now return to the <strong>PulseFit app</strong>. Your plan, order or session will update automatically once the payment is confirmed.</p>
+      <p class="small text-secondary mt-3 mb-0" id="ref"></p>
+    </div>
+  </div>
+  <script src="js/pages/payment-complete.js"></script>
+</body>
+</html>

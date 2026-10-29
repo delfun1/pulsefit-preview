@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 ws://127.0.0.1:54321; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Coupons & delivery — PulseFit Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css" integrity="sha384-nWN3KqaaVcbEsCjLSV+2jMjh62Iny/+mN3srM8TZeM8N6aj7eDl5wwYggjAJ4/sJ" crossorigin="anonymous" rel="stylesheet">
+  <link href="../css/admin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main>
+      <header id="topbar"></header>
+      <div class="row g-3">
+        <div class="col-xl-7">
+          <div class="pf-card">
+            <div class="d-flex align-items-center mb-2"><h2 class="h6 fw-bold mb-0">Discount codes</h2>
+              <button class="btn btn-accent btn-sm ms-auto" id="new-coupon"><i class="bi bi-plus-lg"></i> New code</button></div>
+            <div id="error" class="alert alert-danger d-none" role="alert"></div>
+            <div class="table-responsive"><table class="table align-middle">
+              <thead><tr><th>Code</th><th>Discount</th><th>Min. order</th><th>Used</th><th>Valid</th><th>Active</th><th></th></tr></thead>
+              <tbody id="coupons"></tbody></table></div>
+          </div>
+        </div>
+        <div class="col-xl-5">
+          <div class="pf-card mb-3">
+            <div class="d-flex align-items-center mb-2"><h2 class="h6 fw-bold mb-0">Delivery methods</h2>
+              <button class="btn btn-outline-primary btn-sm ms-auto" id="new-ship"><i class="bi bi-plus"></i> Add</button></div>
+            <ul class="list-group list-group-flush" id="shipping"></ul>
+          </div>
+          <div class="pf-card">
+            <h2 class="h6 fw-bold">Tax</h2>
+            <p class="small text-secondary">Tax rates are applied at checkout only when active. Confirm the correct rate with your accountant. (Administrators only.)</p>
+            <ul class="list-group list-group-flush" id="tax"></ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="coupon-modal" tabindex="-1" aria-labelledby="coupon-title" aria-hidden="true">
+        <div class="modal-dialog"><form class="modal-content" id="coupon-form" novalidate>
+          <div class="modal-header"><h2 class="modal-title h5" id="coupon-title">Discount code</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+          <div class="modal-body row g-3">
+            <div class="col-md-6"><label class="form-label" for="c-code">Code *</label><input class="form-control text-uppercase" id="c-code" required pattern="[A-Za-z0-9_\-]{3,30}"></div>
+            <div class="col-md-6"><label class="form-label" for="c-type">Type</label><select class="form-select" id="c-type"><option value="percent">% off</option><option value="amount">Fixed amount off</option></select></div>
+            <div class="col-md-6"><label class="form-label" for="c-value">Value *</label><input class="form-control" id="c-value" type="number" min="0.01" step="any" required></div>
+            <div class="col-md-6"><label class="form-label" for="c-min">Minimum order (FCFA)</label><input class="form-control" id="c-min" type="number" min="0" value="0"></div>
+            <div class="col-md-6"><label class="form-label" for="c-max">Max uses (empty = unlimited)</label><input class="form-control" id="c-max" type="number" min="1"></div>
+            <div class="col-md-6"><label class="form-label" for="c-desc">Note</label><input class="form-control" id="c-desc" maxlength="120"></div>
+            <div class="col-md-6"><label class="form-label" for="c-start">Starts</label><input class="form-control" id="c-start" type="date"></div>
+            <div class="col-md-6"><label class="form-label" for="c-end">Ends</label><input class="form-control" id="c-end" type="date"></div>
+            <div class="col-12 form-check ms-2"><input class="form-check-input" type="checkbox" id="c-active" checked><label class="form-check-label" for="c-active">Active</label></div>
+          </div>
+          <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary">Save</button></div>
+        </form></div>
+      </div>    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script type="module" src="../js/pages/store-settings.js"></script>
+</body>
+</html>

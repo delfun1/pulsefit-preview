@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 ws://127.0.0.1:54321; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Platform settings — PulseFit Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css" integrity="sha384-nWN3KqaaVcbEsCjLSV+2jMjh62Iny/+mN3srM8TZeM8N6aj7eDl5wwYggjAJ4/sJ" crossorigin="anonymous" rel="stylesheet">
+  <link href="../css/admin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main>
+      <header id="topbar"></header>
+            <form class="pf-card mb-3 settings-form" id="s-brand" novalidate>
+        <div class="d-flex align-items-start gap-3 mb-3">
+          <i class="bi bi-palette fs-4 text-primary" aria-hidden="true"></i>
+          <div class="flex-grow-1"><h2 class="h6 fw-bold mb-1">Brand & currency</h2><p class="small text-secondary mb-0">Shown in the apps, emails and checkout pages.</p></div>
+          <button class="btn btn-primary btn-sm" type="submit">Save</button>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6"><label class="form-label" for="brand.name">Platform name</label>
+            <input class="form-control" id="brand.name" data-key="brand.name" data-type="text" maxlength="60" required>
+            <div class="form-text">Also update the name in the app build and web admin config (see README).</div></div>
+          <div class="col-md-6"><label class="form-label" for="platform.default_currency">Default currency for new prices</label>
+            <select class="form-select" id="platform.default_currency" data-key="platform.default_currency" data-type="text"></select></div></div>
+      </form>
+      <form class="pf-card mb-3 settings-form" id="s-booking" novalidate>
+        <div class="d-flex align-items-start gap-3 mb-3">
+          <i class="bi bi-calendar-check fs-4 text-primary" aria-hidden="true"></i>
+          <div class="flex-grow-1"><h2 class="h6 fw-bold mb-1">Coaching & bookings</h2><p class="small text-secondary mb-0">Rules applied by the server to every booking.</p></div>
+          <button class="btn btn-primary btn-sm" type="submit">Save</button>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-4"><label class="form-label" for="booking.min_notice_hours">Minimum notice</label>
+            <div class="input-group"><input class="form-control" type="number" id="booking.min_notice_hours" data-key="booking.min_notice_hours" data-type="number" min="0" max="168" step="1" required>
+            <span class="input-group-text">hours</span></div><div class="form-text">Earliest a client can book ahead.</div></div>
+          <div class="col-md-4"><label class="form-label" for="booking.cancel_window_hours">Cancellation window</label>
+            <div class="input-group"><input class="form-control" type="number" id="booking.cancel_window_hours" data-key="booking.cancel_window_hours" data-type="number" min="0" max="168" step="1" required>
+            <span class="input-group-text">hours</span></div><div class="form-text">Clients cannot cancel a confirmed session closer than this.</div></div>
+          <div class="col-md-4"><label class="form-label" for="booking.slot_step_minutes">Start times every</label>
+            <select class="form-select" id="booking.slot_step_minutes" data-key="booking.slot_step_minutes" data-type="number">
+              <option>5</option><option>10</option><option>15</option><option>20</option><option>30</option><option>60</option></select>
+            <div class="form-text">Minutes between offered start times.</div></div>
+          <div class="col-md-4"><label class="form-label" for="booking.default_commission_pct">Default platform commission</label>
+            <div class="input-group"><input class="form-control" type="number" id="booking.default_commission_pct" data-key="booking.default_commission_pct" data-type="number" min="0" max="100" step="0.01" required>
+            <span class="input-group-text">%</span></div><div class="form-text">Per-coach commission can be set on the Coaches page.</div></div></div>
+      </form>
+      <form class="pf-card mb-3 settings-form" id="s-store" novalidate>
+        <div class="d-flex align-items-start gap-3 mb-3">
+          <i class="bi bi-shop fs-4 text-primary" aria-hidden="true"></i>
+          <div class="flex-grow-1"><h2 class="h6 fw-bold mb-1">Store</h2><p class="small text-secondary mb-0">Checkout behaviour.</p></div>
+          <button class="btn btn-primary btn-sm" type="submit">Save</button>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-4"><label class="form-label" for="store.reservation_minutes">Hold stock for unpaid orders</label>
+            <div class="input-group"><input class="form-control" type="number" id="store.reservation_minutes" data-key="store.reservation_minutes" data-type="number" min="5" max="1440" step="1" required>
+            <span class="input-group-text">minutes</span></div><div class="form-text">After this, unpaid orders expire and stock returns.</div></div></div>
+      </form>
+      <form class="pf-card mb-3 settings-form" id="s-ai" novalidate>
+        <div class="d-flex align-items-start gap-3 mb-3">
+          <i class="bi bi-robot fs-4 text-primary" aria-hidden="true"></i>
+          <div class="flex-grow-1"><h2 class="h6 fw-bold mb-1">AI assistant</h2><p class="small text-secondary mb-0">Daily limits per plan are set on the Subscription plans page.</p></div>
+          <button class="btn btn-primary btn-sm" type="submit">Save</button>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-4"><div class="form-check form-switch mt-4">
+            <input class="form-check-input" type="checkbox" role="switch" id="ai.enabled" data-key="ai.enabled" data-type="boolean">
+            <label class="form-check-label" for="ai.enabled">AI assistant switched on</label></div>
+            <div class="form-text">Turning it off stops all AI requests immediately.</div></div>
+          <div class="col-md-4"><label class="form-label" for="ai.free_daily_limit">Free messages per day</label>
+            <div class="input-group"><input class="form-control" type="number" id="ai.free_daily_limit" data-key="ai.free_daily_limit" data-type="number" min="0" max="1000" step="1" required>
+            </div><div class="form-text">For members without a plan.</div></div>
+          <div class="col-md-4"><label class="form-label" for="ai.min_age">Minimum age</label>
+            <div class="input-group"><input class="form-control" type="number" id="ai.min_age" data-key="ai.min_age" data-type="number" min="13" max="100" step="1" required>
+            <span class="input-group-text">years</span></div><div class="form-text">Younger members cannot use the AI assistant.</div></div></div>
+      </form>
+
+      <div class="pf-card mb-3">
+        <div class="d-flex align-items-start gap-3 mb-2"><i class="bi bi-percent fs-4 text-primary" aria-hidden="true"></i>
+          <div><h2 class="h6 fw-bold mb-1">Taxes</h2><p class="small text-secondary mb-0">Applied to store orders in that country when active. Confirm rates with your accountant before switching one on.</p></div></div>
+        <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Country</th><th>Name</th><th style="width:140px">Rate %</th><th>Active</th><th></th></tr></thead>
+          <tbody id="taxes"></tbody></table></div>
+      </div>
+      <div class="pf-card mb-3">
+        <div class="d-flex align-items-start gap-3 mb-2"><i class="bi bi-currency-exchange fs-4 text-primary" aria-hidden="true"></i>
+          <div><h2 class="h6 fw-bold mb-1">Currencies</h2><p class="small text-secondary mb-0">Only active currencies can be used for new prices. Amounts are never converted between currencies.</p></div></div>
+        <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Code</th><th>Name</th><th>Decimals</th><th>Active</th></tr></thead>
+          <tbody id="currencies"></tbody></table></div>
+      </div>
+      <div class="pf-card">
+        <div class="d-flex align-items-start gap-3 mb-2"><i class="bi bi-plug fs-4 text-primary" aria-hidden="true"></i>
+          <div><h2 class="h6 fw-bold mb-1">Integrations</h2><p class="small text-secondary mb-0">Keys are stored as Supabase secrets and never appear here. Email and push are switched on the <a href="notifications.html">Notifications</a> page.</p></div></div>
+        <div class="table-responsive"><table class="table table-sm align-middle mb-0"><thead><tr><th>Service</th><th>Status</th><th>Mode</th></tr></thead>
+          <tbody id="integrations"></tbody></table></div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script type="module" src="../js/pages/settings.js"></script>
+</body>
+</html>
